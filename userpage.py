@@ -107,3 +107,15 @@ def upload(request):
                'textList': l1, 'lawList': l2}
 
     return render(request, 'firepy/result.html', {'image_url': photo.image.url, 'textList': l1, 'lawList': l2})
+
+
+# 아래 코드는 사용자가 불순한 의도를 가지고 js 파일등을 업로드할 때를 방지하기 위해
+# 파일의 이름을 임의로 수정하는 로직입니다.
+
+def pathmaker(instance, filename):
+    from random import choice
+    import string
+    arr = [choice(string.ascii_letters) for _ in range(8)]
+    pid = ''.join(arr)
+    extension = os.path.splitext(filename)[-1].lower()
+    return pid + "/" + pid + extension
